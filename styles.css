@@ -1,0 +1,216 @@
+/* Reset default margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and HTML should take full height */
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #FFEFFF;
+}
+
+/* Flexbox layout for full-height pages */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Top Navigation Bar Styles */
+.topnav {
+    background-color: #292662;
+    overflow: hidden;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+.topnav ul {
+    list-style: none;
+    display: flex;
+}
+
+.topnav li {
+    margin: 0;
+}
+
+.topnav a {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+/* Header Styles */
+header {
+    background-color: #FFEFFF;
+    padding: 1rem;
+    text-align: center;
+    position: relative; /* Add relative positioning */
+}
+
+.hamburger {
+    display: flex; /* Always display the hamburger icon */
+    flex-direction: column;
+    cursor: pointer;
+    position: absolute; /* Position the hamburger icon */
+    left: 1rem; /* Align it to the left */
+    top: 50%; /* Center it vertically */
+    transform: translateY(-50%); /* Adjust for perfect vertical centering */
+}
+
+.bar {
+    width: 36px;
+    height: 5px;
+    background-color: #333;
+    margin: 4px 0;
+    padding: 0;
+    transition: 0.4s;
+}
+
+/* Main Content Styles */
+main {
+    flex: 1;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+}
+
+.container {
+    display: none; 
+    flex-direction: column; /* Arrange children in a column */
+    align-items: center; /* Center children horizontally */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 8px;
+    height: 100%;
+    width: 100%;
+    padding: 1rem; /* Add padding for spacing */
+}
+
+#question {
+    margin-bottom: 1rem; /* Add margin below the question */
+}
+
+#answer-input {
+    width: 95%;
+    height: 20%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none; /* Prevent resizing */
+    margin-bottom: 1rem;
+}
+.options {
+    display: block;
+    margin-bottom: 1rem;
+}
+.button {
+    display: inline-block; /* Ensures it behaves like a button */
+    background-color: #007bff; /* Blue background color */
+    color: #ffffff; /* White text color */
+    padding: 10px 20px; /* Adds space around the text */
+    text-align: center; /* Centers the text */
+    font-size: 16px; /* Adjusts the font size */
+    font-weight: bold; /* Makes the text bold */
+    border-radius: 5px; /* Rounds the corners */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    border: none; /* Removes any border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+    text-decoration: none; /* Removes underline for links */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition effect */
+}
+
+.button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly enlarges the button on hover */
+}
+
+.side {
+    flex: 0 0 20%;
+    background-color: #FFEFFF;
+    padding: 1rem;
+    display: flex;
+    height: 100%;
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+}
+
+.main {
+    flex: 1;
+    padding: 1rem;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+}
+
+/* Footer Styles */
+footer {
+    background-color: #FFEFFF;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Side Navigation Styles */
+.side-nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+    background-color: #292662;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.side-nav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #f2f2f2;
+    display: block;
+    transition: 0.3s;
+}
+
+.side-nav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+.side-nav .closebtn:hover {
+    background-color: #292662;
+}
+.side-nav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+

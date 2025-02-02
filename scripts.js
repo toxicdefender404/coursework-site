@@ -18,15 +18,6 @@ function outsideClickListener(event) {
     }
 }
 
-// Array to store quiz questions and answers
-quizQuestions = [
-    { question: "", correctAnswer: "" },
-    { question: "", correctAnswer: "" },
-    { question: "", correctAnswer: "" },
-    { question: "", correctAnswer: "" },
-    { question: "", correctAnswer: "" }
-];
-
 let currentQuestion = 0; // Index of the current question
 let score = 0; // User's score
 
@@ -35,59 +26,9 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1)) + Math.ceil(min);
 }
 
-// Function to convert a number to binary
-function toBinary(num) {
-    return num.toString(2);
-}
-
-// Function to generate quiz questions
-function generateQuestion() {
-    for (var i = 0; i < quizQuestions.length; i++) {
-        let rand = getRandomInt(0, 255);
-        quizQuestions[i].question = toBinary(rand);
-        quizQuestions[i].correctAnswer = rand;
-    }
-}
-
-// Function to display the current question
-function displayQuestion() {
-    const questionElement = document.getElementById('question');
-    questionElement.textContent = "Convert " + quizQuestions[currentQuestion].question + " to Denary";
-}
-var completed = false;
-// Function to check the user's answer
-function checkAnswer() {
-    if (completed){
-        document.getElementById('arithmetic-options-container').style.display = 'flex';
-        document.getElementById('quiz-container').style.display = 'none';
-        generateQuestion();
-        displayQuestion();
-        completed = false;
-        return;
-    }
-    const answerInput = document.getElementById('answer-input').value.trim();
-
-    if (Number(answerInput) == Number(quizQuestions[currentQuestion].correctAnswer)) {
-        score++;
-        alert('Correct!');
-    } else {
-        alert(`Sorry, that's incorrect. The answer was ${quizQuestions[currentQuestion].correctAnswer}.`);
-    }
-
-    currentQuestion++;
-    if (currentQuestion < quizQuestions.length) {
-        displayQuestion();
-    } else {
-        showResult();
-    }
-}
-
-// Function to show the quiz result
-function showResult() {
-    const questionElement = document.getElementById('question');
-    questionElement.textContent = `Quiz completed! Your score: ${score}/${quizQuestions.length}`;
-    completed = true;
-    currentQuestion = 0;
+// Function to convert a number between bases
+function toBase(num,from,to) {
+    return parseInt(num,Number(to)).toString(Number(from));
 }
 
 prev = "0"
@@ -98,19 +39,204 @@ function changeMenu(id) {
         navItems.forEach(item => item.classList.remove('active')); // Remove active class from all nav items
         document.getElementById(id).classList.add('active'); // Add active class to clicked nav item
     }
-    if (prev == "0"){
-        document.getElementById('welcome-text').style.display = "none";
+    switch (prev)
+    {
+        case "0": //welcome page
+            document.getElementById('welcome-text').style.display = "none";
+            break;
+        case "1": //arithmetic
+            document.getElementById('arithmetic-options-container').style.display = "none";
+            document.getElementById('quiz-container').style.display = "none";
+        case "3": //conversion
+            document.getElementById('conversion-options-container').style.display = "none";
+            document.getElementById('quiz-container').style.display = "none";
+            break;
+        default: //other (unimplemented) options
+            document.getElementById('welcome-text').style.display = "none";
+            break;
     }
-    if (id == "3") { //arithmetic
-        document.getElementById('arithmetic-options-container').style.display = "flex";
-        displayQuestion();
-        prev = id;
-    } else {//otherwise go to home page
-        document.getElementById('arithmetic-options-container').style.display = "none";
-        document.getElementById('welcome-text').style.display = "block";
+    prev = id;
+    switch (id)
+    {
+        case "0": //welcome page
+            document.getElementById('welcome-text').style.display = "block";
+            break;
+        case "1":
+            document.getElementById('arithmetic-options-container').style.display = "flex";
+            break;
+        case "3": //conversion
+            document.getElementById('conversion-options-container').style.display = "flex";
+            break;
+        default: //other (unimplemented) options
+            document.getElementById('welcome-text').style.display = "block";
+            break;
     }
 }
 
-generateQuestion();
+class Quiz {
+    constructor() {
+        this.currentQuestion = 0; 
+        this.score = 0;
+        this.numQuestions = 0;
+        this.questions = [];
+    }
+    displayNext() { 
+        if (this.currentQuestion < this.numQuestions) {
+            const question = this.questions[this.currentQuestion].question;
+            this.displayQuestionText(question);
+        } else {
+            this.displayResults();
+        }
+    }
+    displayResults() {
+        //implement on derived class
+    }
+    displayQuestionText(question) {
+        //implement on derived class
+    }
+    generateQuestions(){
+        //implement on derived class
+    }
+    isCorrect(userAnswer, currentQuestion) {
+        return userAnswer == questions[i].correctAnswer;
+    }
+    checkAnswer(userAnswer) {
+        if (this.isCorrect(userAnswer, this.currentQuestion)) {
+            this.score++;
+        } else {
 
+        }
+        this.currentQuestion++;
+        this.displayNext();
+    }
+
+}
+class ConversionQuiz extends Quiz {
+    constructor() {
+        super(); // calls the constructor from the base class
+    }
+
+    displayResults(){
+        const questionElement = document.getElementById('question');
+        questionElement.textContent = `Quiz completed! Your score: ${this.score}/${this.questions.length}`;
+    }
+
+    displayQuestionText(){
+        const questionElement = document.getElementById('question');
+        let to = "";
+        switch (this.baseTo){
+            case "10":
+                to = "denary"
+                break;
+            case "2":
+                to = "binary"
+                break;
+            case "16":
+                to = "hexadecimal"
+                break;
+            default:
+                to = "base " + this.baseTo;
+                break;
+        }
+        let from = "";
+        switch (this.baseFrom){
+            case "10":
+                from = "denary"
+                break;
+            case "2":
+                from = "binary"
+                break;
+            case "16":
+                from = "hexadecimal"
+                break;
+            default:
+                from = "base " + this.baseFrom;
+                break;
+        }
+        questionElement.textContent = "Convert " + this.questions[this.currentQuestion].question + " from " + from + " to " + to;
+    }
+
+    generateQuestions(numQuestions, from, to){
+        this.currentQuestion = 0;
+        this.numQuestions = numQuestions;
+        this.baseTo = to;
+        this.baseFrom = from;
+        for (var i = 0; i < this.numQuestions; i++) { //generates a random number between 24 and 255 and convert to binary
+            let rand = getRandomInt(24, 255);
+            this.questions.push({question : toBase(rand, from, to), correctAnswer: rand});
+        }
+    }
+
+    isCorrect(){
+        const element = document.getElementById('answer-input');
+        const value = element.value.trim(); // removes whitespace
+        return Number(value) == this.questions[this.currentQuestion].correctAnswer; //converts from string to float and compares
+    }
+
+    checkAnswer() {
+        if (this.isCorrect(this.currentQuestion)) {
+            this.score++;
+            alert(`Correct!`);
+        } else {
+            alert(`Sorry, that's incorrect. The answer was ${this.questions[this.currentQuestion].correctAnswer}.`);
+        }
+        this.currentQuestion++;
+        this.displayNext();
+    }
+
+}
+
+class ArithmeticQuiz extends Quiz {
+    constructor(){
+        super();
+    }
+    displayResults() {
+        //implement on derived class
+    }
+    displayQuestionText(question) {
+        //implement on derived class
+    }
+    generateQuestions(){
+        //implement on derived class
+    }
+}
+
+var conversionQuiz = new ConversionQuiz();
+function submitConversion(){
+    document.getElementById('conversion-options-container').style.display = 'none';
+    document.getElementById('quiz-container').style.display = 'flex';
+    conversionQuiz.generateQuestions(document.getElementById('num-conversion-questions').value
+                                    ,document.getElementById('base-from').value
+                                    ,document.getElementById('base-to').value);
+    conversionQuiz.displayQuestionText();
+}
+
+var arithmeticQuiz = new ArithmeticQuiz();
+function submitArithmetic(){
+    document.getElementById('arithmetic-options-container').style.display = 'none';
+    document.getElementById('quiz-container').style.display = 'flex';
+    arithmeticQuiz.generateQuestions();
+    arithmeticQuiz.displayQuestionText();
+}
+
+function checkAnswer(){
+
+    //get all nav items, and find the id of the active one
+    const navItems = document.querySelectorAll('.nav-item');
+    id = "";
+    navItems.forEach(item => {
+        if (item.classList.contains('active')){
+            id = item.id;
+        }
+    });
+
+    switch (id){
+        case "1":
+        case "3":
+            conversionQuiz.checkAnswer();
+            break;
+        default:
+            break;
+    }
+}
 

@@ -24,16 +24,16 @@
         <a href="#account">Account</a>
         <a href="#tutorials">Tutorials</a>
     </div>
-    
+
     <nav class="topnav">
         <ul>
-            <li><a class="nav-item" id = "1" onclick="changeMenu('1')" href="#conversion">Conversion</a></li>
+            <li><a class="nav-item" id = "1" onclick="changeMenu('1')" href="#arithmetic">Binary Arithmetic</a></li>
             <li><a class="nav-item" id = "2" onclick="changeMenu('2')" href="#ASCII">ASCII</a></li>
-            <li><a class="nav-item" id = "3" onclick="changeMenu('3')" href="#arithmetic">Binary Arithmetic</a></li>
+            <li><a class="nav-item" id = "3" onclick="changeMenu('3')" href="#conversion">Conversion</a></li>
             <li><a class="nav-item" id = "4" onclick="changeMenu('4')" href="#units">Storage Units</a></li>
         </ul>
     </nav>
-   
+
     <main>
         <div class="content">
 
@@ -45,20 +45,44 @@
                     and how it is used in computing. You can use the navigation bar above to select a 
                     topic to take a quiz on it.
                 </h2>
+
                 <div class="container" id="arithmetic-options-container">
                     <div class="options">
                         <label for="num-questions">How many questions</label>
-                        <input type="number" id="num-questions" name="num-questions" min="1" max="20" value="5">
+                        <input type="number" id="num-arithmetic-questions" name="num-questions" min="1" max="20" value="5">
                     </div>
                     <div class="options">
                         <label for="signed">Tick to make the questions use twos complement</label>
                         <input type="checkbox" id="signed" name="signed">
                     </div>
                     
+                    
                     <div class="button" onclick="document.getElementById('arithmetic-options-container').style.display = 'none';
-                                                 document.getElementById('quiz-container').style.display = 'flex';">
-                        Submit</div>
+                                                 document.getElementById('quiz-container').style.display = 'flex';
+                                                 console.log(document.getElementById('signed').checked)">
+                        Submit
+                    </div>
                 </div>
+
+                <div class="container" id="conversion-options-container">
+                    <div class="options">
+                        <label for="num-questions">How many questions</label>
+                        <input type="number" id="num-conversion-questions" name="num-questions" min="1" max="20" value="5">
+                    </div>
+                    <div class="options">
+                        <label for="base-from">What base to convert from</label>
+                        <input type="number" id="base-from" name="base-from" min="2" max="64" value="2">
+                    </div>
+                    <div class="options">
+                        <label for="base-to">What base to convert to</label>
+                        <input type="number" id="base-to" name="base-to" min="2" max="64" value="10">
+                    </div>
+ 
+                    <div class="button" onclick="submitConversion()">
+                        Submit
+                    </div>
+                </div>
+
                 <div class="container" id ="quiz-container">
                     <h2 id="question" ></h2>
                     <textarea id="answer-input" placeholder="Enter your answer here"></textarea>
